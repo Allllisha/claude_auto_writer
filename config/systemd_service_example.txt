@@ -17,6 +17,7 @@ StandardOutput=journal
 StandardError=journal
 
 [Install]
+
 WantedBy=multi-user.target
 
 # 使用方法:

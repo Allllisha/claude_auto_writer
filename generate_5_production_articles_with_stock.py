@@ -128,13 +128,28 @@ AI Melody Koboの無料メルマガで、AI音楽制作の最新トレンドを�
 
 def convert_cta_to_html(content: str) -> str:
     """CTAボタンをHTML形式に変換"""
-    cta_button_html = '''<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-layout-1 wp-block-buttons-is-layout-flex">
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/newsletter" style="background-color:#ff6b35;color:#ffffff;">無料メルマガに登録する</a></div>
+    # CTAブロック全体のHTML
+    cta_block_html = '''<div style="background-color: #FFF8E1; border: 2px solid #ff6b35; border-radius: 10px; padding: 30px; margin: 40px 0; text-align: center;">
+<h3 style="color: #ff6b35; margin-bottom: 20px;">💌 無料メルマガ登録で限定特典をゲット！</h3>
+<p style="margin-bottom: 25px;">AI音楽制作の最新情報と実践的なテクニックを毎週お届け！<br>今なら登録特典として「AI音楽プロンプト100選」を無料プレゼント中です。</p>
+<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-layout-1 wp-block-buttons-is-layout-flex">
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/newsletter" style="background-color:#ff6b35;color:#ffffff;padding:15px 30px;font-size:18px;font-weight:bold;border-radius:5px;text-decoration:none;">無料でメルマガに登録する</a></div>
+</div>
 </div>'''
     
+    # CTAボタンの単独置換
+    cta_button_html = '''<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-layout-1 wp-block-buttons-is-layout-flex">
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/newsletter" style="background-color:#ff6b35;color:#ffffff;padding:15px 30px;font-size:18px;font-weight:bold;border-radius:5px;text-decoration:none;">無料でメルマガに登録する</a></div>
+</div>'''
+    
+    # CTAブロック全体を置換
+    cta_pattern = r'---\s*\n\s*\*\*💌 無料メルマガ登録で限定特典をゲット！\*\*\s*\n\s*AI音楽制作の最新情報.*?無料プレゼント中です。\s*\n\s*\[CTAボタン: 無料でメルマガに登録する\]\s*\n\s*---'
+    import re
+    content = re.sub(cta_pattern, cta_block_html, content, flags=re.DOTALL)
+    
+    # 残りの置換
+    content = content.replace('[CTAボタン: 無料でメルマガに登録する]', cta_button_html)
     content = content.replace('[CTAボタン: 無料メルマガに登録する]', cta_button_html)
-    content = content.replace('**💌 無料メルマガ登録で限定特典をゲット！**', 
-                            '<h3 style="text-align: center; color: #ff6b35;">💌 無料メルマガ登録で限定特典をゲット！</h3>')
     
     return content
 
@@ -189,7 +204,6 @@ def add_stock_images_to_content(content: str, article_title: str, image_fetcher:
                 placeholder_html = f'''
 <figure class="wp-block-image size-large">
 <img src="https://via.placeholder.com/800x450/1a1a1a/00ff00?text=AI+Music" alt="{instruction}" class="ai-music-image"/>
-<figcaption>{instruction}</figcaption>
 </figure>'''
                 content = content[:match.start()] + placeholder_html + content[match.end():]
                 continue
@@ -206,13 +220,13 @@ def add_stock_images_to_content(content: str, article_title: str, image_fetcher:
             )
             
             if media_url:
-                # 帰属表示を含むHTML
+                # 帰属表示を含むHTML（キャプションなし）
                 attribution = image_fetcher.get_attribution_html(image_info)
                 image_html = f'''
 <figure class="wp-block-image size-large">
 <img src="{media_url}" alt="{image_info.get('description', instruction)}" class="ai-music-image"/>
-<figcaption>{instruction}<br><small>{attribution}</small></figcaption>
-</figure>'''
+</figure>
+<!-- {attribution} -->'''
                 
                 content = content[:match.start()] + image_html + content[match.end():]
                 used_images.append(image_info['url'])
