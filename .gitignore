@@ -41,6 +41,7 @@ generated_articles_with_ai/
 production_articles/
 temp_thumbnail_*.png
 *.log
+data/generation_history/
 
 # WordPress credentials
 config/wordpress.json
