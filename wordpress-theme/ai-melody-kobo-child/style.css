@@ -1,0 +1,13 @@
+/*
+Theme Name: AI Melody Kobo Child
+Theme URI: https://aimelodykobo.com/
+Description: Cocoon子テーマ - AI Melody Kobo専用カスタマイズ
+Author: AI Melody Kobo
+Template: cocoon-master
+Version: 1.0.3
+*/
+
+/* ステップ1: 管理者PVを非表示にする */
+.admin-pv {
+  display: none;
+}

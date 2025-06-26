@@ -1,0 +1,27 @@
+# systemdサービスファイルの例
+# /etc/systemd/system/ai-melody-kobo.service
+
+[Unit]
+Description=AI Melody Kobo Continuous Article Publisher
+After=network.target
+
+[Service]
+Type=simple
+User=anemoto
+WorkingDirectory=/Users/anemoto/claude_writer
+Environment=PATH=/Users/anemoto/claude_writer/venv/bin
+ExecStart=/Users/anemoto/claude_writer/venv/bin/python /Users/anemoto/claude_writer/continuous_post.py --interval 10
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
+
+# 使用方法:
+# sudo cp systemd_service_example.txt /etc/systemd/system/ai-melody-kobo.service
+# sudo systemctl daemon-reload
+# sudo systemctl enable ai-melody-kobo
+# sudo systemctl start ai-melody-kobo
+# sudo systemctl status ai-melody-kobo

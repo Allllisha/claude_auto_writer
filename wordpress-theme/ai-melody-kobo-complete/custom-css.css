@@ -1,0 +1,40 @@
+/* 目次の重複表示を完全に防ぐ緊急CSS */
+
+/* フッター下の目次を完全非表示 */
+#container > .toc-widget-box,
+#container > #toc,
+.footer ~ .toc-widget-box,
+.footer ~ #toc,
+body > footer ~ *,
+.container-footer ~ .toc-widget-box {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -99999px !important;
+    top: -99999px !important;
+    z-index: -1 !important;
+}
+
+/* サイドバー追従目次も無効化 */
+.sidebar-scroll,
+.sidebar-scroll-fixed,
+.toc-widget-box.fixed,
+.toc-widget-box.sticky,
+#toc.fixed,
+#toc.sticky {
+    position: static !important;
+    display: none !important;
+}
+
+/* 記事内の目次だけ表示 */
+.article #toc,
+.entry-content #toc {
+    display: block !important;
+    position: static !important;
+    visibility: visible !important;
+    height: auto !important;
+    left: auto !important;
+    top: auto !important;
+}

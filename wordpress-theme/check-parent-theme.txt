@@ -1,0 +1,10 @@
+Cocoon親テーマの可能なフォルダ名：
+
+1. cocoon-master
+2. cocoon-master-2.7.2 (バージョン番号付き)
+3. cocoon
+4. wp-cocoon
+
+WordPress管理画面で確認方法：
+- 外観 > テーマ > Cocoonの「テーマの詳細」
+- URLの?theme=の後ろを確認
